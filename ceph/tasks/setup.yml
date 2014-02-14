@@ -1,0 +1,32 @@
+---
+  - name: "udpate apt repo"
+    action: apt update-cache=yes
+
+  - name: "install python software properties"
+    action: apt pkg=python-software-properties
+
+  - name: install common os packages
+    action: apt pkg=$item state=installed
+    with_items:
+      - openssh-server
+      - vim
+
+  - name: ensure sudoers.d is enabled
+    lineinfile: dest=/etc/sudoers state=present backup=yes regexp='^#includedir /etc/sudoers.d' line='#includedir /etc/sudoers.d'
+
+  - name: set up password-less sudo for ceph user
+    copy: content='ceph ALL=(ALL) NOPASSWD:ALL' dest=/etc/sudoers.d/ceph owner=root group=root mode=0440
+
+  - name: create ceph user
+    user: name=ceph comment="ceph" password="ceph" generate_ssh_key=yes ssh_key_bits=2048 uid=1040
+
+  - name: install the ceph key
+    apt_key: url=${apt-key} state=present
+
+  - name: ensure ceph source in sources.list
+    apt_repository: repo='deb http://ceph.com/debian-${ceph_release}/ ${distro_release} main' state=present
+    notify:
+      - update apt cache
+
+  - name: install ceph-deploy
+    action: apt pkg=ceph-deploy state=installed
