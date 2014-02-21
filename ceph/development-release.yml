@@ -1,0 +1,50 @@
+---
+
+- hosts: local
+  connection: local
+
+  tasks:
+     - name: check if ceph repo exists
+       stat: path='./ceph'
+       register: 'ceph_repo'
+
+     - name: clone the ceph repository
+       git: repo=git@jenkins.front.sepia.ceph.com:ceph/ceph dest=ceph
+       when: ceph_repo.stat.exists is defined and ceph_repo.stat.exists == false
+           #is defined and not ceph_repo.stat.isdir
+
+     - name: rename origin to jenkins
+       command: git remote rename origin jenkins chdir=ceph
+       ignore_errors: yes
+
+     - name: spit out the remote names
+       command: git remote -v chdir=ceph
+
+     #- name: set the GNUPGHOME env variable
+     #  environment:
+     #    GNUPGHOME: ~/build/gnupg.ceph-release/
+     #  delegate_to: 127.0.0.1
+
+     #- name: ensure GPG keys exist for release
+     #  command: gpg --list-keys
+     #  register: command_result
+     #  failed_when: "'17ED316D' not in command_result.stdout"
+
+
+### A dev server is an all-in one server
+- hosts: slaves
+  user: jenkins
+  sudo: True
+  vars:
+     distro_name: ${ansible_distribution}
+     distro_release: ${ansible_distribution_release}
+     distro_version: ${ansible_distribution_version}
+
+     # ceph vars
+     gpg-key: https://ceph.com/git/?p=ceph.git;a=blob_plain;f=keys/release.asc
+     ceph_release: development
+
+  #     - include: tasks/setup.yml
+  #
+  #  handlers:
+  #     - include: handlers/handler.yml
