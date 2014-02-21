@@ -23,12 +23,13 @@
      #- name: set the GNUPGHOME env variable
      #  environment:
      #    GNUPGHOME: ~/build/gnupg.ceph-release/
-     #  delegate_to: 127.0.0.1
 
-     #- name: ensure GPG keys exist for release
-     #  command: gpg --list-keys
-     #  register: command_result
-     #  failed_when: "'17ED316D' not in command_result.stdout"
+     - name: ensure GPG keys exist for release
+       command: gpg --list-keys
+       register: command_result
+       failed_when: "'17ED316D' not in command_result.stdout"
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release/
 
 
 ### A dev server is an all-in one server
