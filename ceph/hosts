@@ -37,6 +37,9 @@ sles11sp2
 [fedora19]
 10.1.1.1
 
+[fedora20]
+gitbuilder-ceph-rpm-fedora20-amd64-basic.front.sepia.ceph.com
+
 [opensuse12.2]
 10.1.1.1
 
