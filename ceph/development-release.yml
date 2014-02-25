@@ -30,7 +30,7 @@
 
        # FIXME: version depends on type of build
      - name: set the debian version
-       command: dch -v 0.74-1
+       command: dch -v 0.74-1 chdir=ceph
 
        # FIXME: version depends on type of build
      - name: commit the version changes
