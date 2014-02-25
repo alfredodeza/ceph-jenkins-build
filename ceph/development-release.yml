@@ -4,6 +4,10 @@
 
   connection: local
 
+  vars:
+    version: 0-dev # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
+
+
   tasks:
      - name: check if ceph repo exists
        stat: path='./ceph'
