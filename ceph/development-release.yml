@@ -34,17 +34,17 @@
 
        # FIXME: version depends on type of build
      - name: set the debian version
-       command: dch -v 0.74-1 chdir=ceph
+       command: dch -v {{ version }} chdir=ceph
 
        # FIXME: version depends on type of build
      - name: commit the version changes
-       command: git commit -a -m "v0.74" chdir=ceph
+       command: git commit -a -m "{{ version }}" chdir=ceph
 
        # FIXME: again need the version comming from the build
        # from script: /srv/ceph-build/tag_release.sh
        # Contents of tag_release.sh
      - name: tag and commit the version
-       command: git tag -s "v0.74" -u 17ED316D -m "v0.74" chdir=ceph
+       command: git tag -s "{{ version }}"  -u 17ED316D -m "{{ version }}" chdir=ceph
 
      - name: push changes to jenkins git repo
        command: git push jenkins next chdir=ceph
