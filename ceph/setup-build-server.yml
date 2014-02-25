@@ -1,7 +1,7 @@
 ---
 ### A dev server is an all-in one server
-- hosts: dev-server
-  user: vagrant
+- hosts: slaves
+  user: jenkins
   sudo: True
   vars:
      is_10_up: "'$ansible_distribution_version' >= '10.04'"
