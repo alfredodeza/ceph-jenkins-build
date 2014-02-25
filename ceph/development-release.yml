@@ -34,7 +34,7 @@
 
        # FIXME: version depends on type of build
      - name: commit the version changes
-       command: git commit -a -m "v0.74"
+       command: git commit -a -m "v0.74" chdir=ceph
 
        # FIXME: again need the version comming from the build
        # from script: /srv/ceph-build/tag_release.sh
@@ -43,11 +43,11 @@
        command: git tag -s "v0.74" -u 17ED316D -m "v0.74" chdir=ceph
 
      - name: push changes to jenkins git repo
-       command: git push jenkins next
+       command: git push jenkins next chdir=ceph
 
        # FIXME: again need the version comming from the build
      - name: push the newly created tag
-       command: git push jenkins v0.74
+       command: git push jenkins v0.74 chdir=ceph
 
      #- name: set the GNUPGHOME env variable
      #  environment:
