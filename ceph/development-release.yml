@@ -32,6 +32,11 @@
      - name: git submodule update
        command: git submodule update --init chdir=ceph
 
+     - name: replace the version in configure.ac
+       lineinfile: dest=ceph/configure.ac
+                   regexp='^AC_INIT\(\[ceph\],'
+                   line='AC_INIT([ceph], [{{ version }}], [ceph-devel@vger.kernel.org])'
+
        # FIXME: version depends on type of build
      - name: set the debian version
        command: dch -v {{ version }} chdir=ceph
