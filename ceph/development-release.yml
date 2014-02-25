@@ -1,6 +1,7 @@
 ---
 
 - hosts: local
+
   connection: local
 
   tasks:
@@ -20,6 +21,22 @@
      - name: spit out the remote names
        command: git remote -v chdir=ceph
 
+       # FIXME: branch depends on type of build
+     - name: git checkout next branch
+       command: git checkout next --init chdir=ceph
+
+     - name: git submodule update
+       command: git submodule update --init chdir=ceph
+
+       # FIXME: version depends on type of build
+     - name: set the debian version
+       command: dch -v 0.74-1
+
+       # FIXME: version depends on type of build
+     - name: commit the version changes
+       command: git commit -a -m "v0.74"
+
+
      #- name: set the GNUPGHOME env variable
      #  environment:
      #    GNUPGHOME: ~/build/gnupg.ceph-release/
@@ -31,8 +48,6 @@
        environment:
          GNUPGHOME: ~/build/gnupg.ceph-release/
 
-
-### A dev server is an all-in one server
 - hosts: slaves
   user: jenkins
   sudo: True
