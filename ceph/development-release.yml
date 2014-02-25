@@ -23,7 +23,7 @@
 
        # FIXME: branch depends on type of build
      - name: git checkout next branch
-       command: git checkout next --init chdir=ceph
+       command: git checkout next chdir=ceph
 
      - name: git submodule update
        command: git submodule update --init chdir=ceph
