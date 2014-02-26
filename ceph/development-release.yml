@@ -46,6 +46,8 @@
        # Contents of tag_release.sh
      - name: tag and commit the version
        command: git tag -s "{{ version }}"  -u 17ED316D -m "{{ version }}" chdir=ceph
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release/
 
      - name: push changes to jenkins git repo
        command: git push jenkins next chdir=ceph
