@@ -53,7 +53,7 @@
        command: git push jenkins next chdir=ceph
 
      - name: push the newly created tag
-       command: git push jenkins v{{ version }} chdir=ceph
+       command: git push jenkins {{ version }} chdir=ceph
        environment:
          GNUPGHOME: ~/build/gnupg.ceph-release
 
