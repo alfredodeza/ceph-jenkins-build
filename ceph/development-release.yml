@@ -16,7 +16,6 @@
      - name: clone the ceph repository
        git: repo=git@jenkins.front.sepia.ceph.com:ceph/ceph dest=ceph
        when: ceph_repo.stat.exists is defined and ceph_repo.stat.exists == false
-           #is defined and not ceph_repo.stat.isdir
 
      - name: rename origin to jenkins
        command: git remote rename origin jenkins chdir=ceph
@@ -37,15 +36,12 @@
                    regexp='^AC_INIT\(\[ceph\],'
                    line='AC_INIT([ceph], [{{ version }}], [ceph-devel@vger.kernel.org])'
 
-       # FIXME: version depends on type of build
      - name: set the debian version
        command: dch -v {{ version }} -D UNRELEASED "Development release" chdir=ceph
 
-       # FIXME: version depends on type of build
      - name: commit the version changes
        command: git commit -a -m "{{ version }}" chdir=ceph
 
-       # FIXME: again need the version comming from the build
        # from script: /srv/ceph-build/tag_release.sh
        # Contents of tag_release.sh
      - name: tag and commit the version
@@ -54,9 +50,10 @@
      - name: push changes to jenkins git repo
        command: git push jenkins next chdir=ceph
 
-       # FIXME: again need the version comming from the build
      - name: push the newly created tag
        command: git push jenkins v{{ version }} chdir=ceph
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release/
 
      #- name: set the GNUPGHOME env variable
      #  environment:
