@@ -39,7 +39,7 @@
 
        # FIXME: version depends on type of build
      - name: set the debian version
-       command: dch -v {{ version }} chdir=ceph
+       command: dch -v {{ version }} -D UNRELEASED "Development release" chdir=ceph
 
        # FIXME: version depends on type of build
      - name: commit the version changes
