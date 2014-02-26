@@ -56,7 +56,7 @@
 
        # FIXME: again need the version comming from the build
      - name: push the newly created tag
-       command: git push jenkins v0.74 chdir=ceph
+       command: git push jenkins v{{ version }} chdir=ceph
 
      #- name: set the GNUPGHOME env variable
      #  environment:
