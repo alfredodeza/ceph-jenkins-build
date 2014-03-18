@@ -57,10 +57,6 @@
        environment:
          GNUPGHOME: ~/build/gnupg.ceph-release
 
-     #- name: set the GNUPGHOME env variable
-     #  environment:
-     #    GNUPGHOME: ~/build/gnupg.ceph-release/
-
      - name: ensure GPG keys exist for release
        command: gpg --list-keys
        register: command_result
