@@ -1,0 +1,61 @@
+---
+
+- hosts: local
+
+  connection: local
+
+  vars:
+    version: 0-dev # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
+
+
+  tasks:
+     - name: check if ceph-deploy repo exists
+       stat: path='./ceph-deploy'
+       register: 'cdep_repo'
+
+     - name: clone the ceph-deploy repository
+       git: repo=git@jenkins.front.sepia.ceph.com:ceph-deploy/ceph-deploy dest=ceph-deploy
+       when: cdep_repo.stat.exists is defined and cdep_repo.stat.exists == false
+
+     - name: rename origin to jenkins
+       command: git remote rename origin jenkins chdir=ceph-deploy
+       ignore_errors: yes
+
+     - name: spit out the remote names
+       command: git remote -v chdir=ceph-deploy
+
+     - name: git checkout master branch
+       command: git checkout master chdir=ceph-deploy
+
+     - name: ensure version to build is present
+       lineinfile: dest=ceph-deploy/ceph_deploy/__init__.py
+                   regexp='__version__\s*\=\s*{{ version }}$'
+
+     - name: set the debian version
+       command: dch -v {{ version }} -D UNRELEASED "Development release" chdir=ceph-deploy
+
+     - name: commit the version changes
+       command: git commit -a -m "{{ version }}" chdir=ceph-deploy
+
+       # from script: /srv/ceph-build/tag_release.sh
+       # Contents of tag_release.sh
+     - name: tag and commit the version
+       command: git tag -s "{{ version }}"  -u 17ED316D -m "{{ version }}" chdir=ceph-deploy
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release
+
+     # TODO
+     #- name: push changes to jenkins git repo
+     #  command: git push jenkins next chdir=ceph-deploy
+
+     #- name: push the newly created tag
+     #  command: git push jenkins {{ version }} chdir=ceph-deploy
+     #  environment:
+     #    GNUPGHOME: ~/build/gnupg.ceph-release
+
+     #- name: ensure GPG keys exist for release
+     #  command: gpg --list-keys
+     #  register: command_result
+     #  failed_when: "'17ED316D' not in command_result.stdout"
+     #  environment:
+     #    GNUPGHOME: ~/build/gnupg.ceph-release/
