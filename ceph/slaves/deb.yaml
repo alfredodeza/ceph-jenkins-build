@@ -42,6 +42,7 @@
       - libleveldb-dev
       - libnewt-dev
       - libnss3-dev
+      - libsnappy-dev
       - libssl-dev
       - libtool
       - libunwind-setjmp0-dev
