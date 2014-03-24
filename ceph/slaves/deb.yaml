@@ -1,0 +1,65 @@
+---
+  - name: "udpate apt repo"
+    action: apt update-cache=yes
+
+  - name: install python-software-properties
+    action: apt name='python-software-properties' state=installed
+
+  - name: install system packages required for the build
+    action: apt pkg=$item state=installed
+    with_items:
+      - asciidoc
+      - automake
+      - binutils-dev
+      - bison
+      - byacc # collectd
+      - debhelper
+      - devscripts
+      - fakeroot
+      - flex
+      - gnupg
+      - junit4
+      - libaio-dev
+      - libatomic-ops-dev
+      - libaudit-dev
+      - libblkid-dev
+      - libboost-dev
+      - libboost-program-options-dev
+      - libboost-system-dev
+      - libboost-thread-dev
+      - libcrypto++-dev
+      - libcurl4-gnutls-dev
+      - libdistro-info-perl # needed by raring
+      - libdw-dev
+      - libedit-dev
+      - libexpat1-dev
+      - libfcgi-dev
+      - libfuse-dev
+      - libgoogle-perftools-dev
+      - libgtk2.0-dev
+      - libgtkmm-2.4-dev
+      - libkeyutils-dev
+      - libleveldb-dev
+      - libnewt-dev
+      - libnss3-dev
+      - libssl-dev
+      - libtool
+      - libunwind-setjmp0-dev
+      - libunwind7-dev
+      - libxml2-dev
+      - lintian
+      - pbuilder
+      - pkg-config
+      - python-argparse
+      - python-dev
+      - python-nose
+      - python-pip
+      - python-support
+      - python-virtualenv
+      - reprepro
+      - sharutils
+      - uuid-dev
+      - uuid-runtime
+      - xfslibs-dev
+      - xmlto
+      - yasm
