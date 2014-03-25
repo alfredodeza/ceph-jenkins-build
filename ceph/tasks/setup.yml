@@ -1,32 +1,67 @@
 ---
-  - name: "udpate apt repo"
-    action: apt update-cache=yes
 
-  - name: "install python software properties"
-    action: apt pkg=python-software-properties
+- hosts: local
 
-  - name: install common os packages
-    action: apt pkg=$item state=installed
-    with_items:
-      - openssh-server
-      - vim
+  connection: local
 
-  - name: ensure sudoers.d is enabled
-    lineinfile: dest=/etc/sudoers state=present backup=yes regexp='^#includedir /etc/sudoers.d' line='#includedir /etc/sudoers.d'
+  vars:
+    version: 0-dev # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
+    branch: firefly # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
+    release: stable #
 
-  - name: set up password-less sudo for ceph user
-    copy: content='ceph ALL=(ALL) NOPASSWD:ALL' dest=/etc/sudoers.d/ceph owner=root group=root mode=0440
 
-  - name: create ceph user
-    user: name=ceph comment="ceph" password="ceph" generate_ssh_key=yes ssh_key_bits=2048 uid=1040
+  tasks:
+     - name: check if ceph repo exists
+       stat: path='./ceph'
+       register: 'ceph_repo'
 
-  - name: install the ceph key
-    apt_key: url=${apt-key} state=present
+     - name: clone the ceph repository
+       git: repo=git@jenkins.front.sepia.ceph.com:ceph/ceph dest=ceph
+       when: ceph_repo.stat.exists is defined and ceph_repo.stat.exists == false
 
-  - name: ensure ceph source in sources.list
-    apt_repository: repo='deb http://ceph.com/debian-${ceph_release}/ ${distro_release} main' state=present
-    notify:
-      - update apt cache
+     - name: rename origin to jenkins
+       command: git remote rename origin jenkins chdir=ceph
+       ignore_errors: yes
 
-  - name: install ceph-deploy
-    action: apt pkg=ceph-deploy state=installed
+     - name: spit out the remote names
+       command: git remote -v chdir=ceph
+
+       # FIXME: branch depends on type of build
+     - name: git checkout {{ branch }} branch
+       command: git checkout {{ branch }} chdir=ceph
+
+     - name: git submodule update
+       command: git submodule update --init chdir=ceph
+
+     - name: replace the version in configure.ac
+       lineinfile: dest=ceph/configure.ac
+                   regexp='^AC_INIT\(\[ceph\],'
+                   line='AC_INIT([ceph], [{{ version }}], [ceph-devel@vger.kernel.org])'
+
+     - name: set the debian version
+       command: dch -v {{ version }}-1 -D stable "New upsream release" chdir=ceph
+
+     - name: commit the version changes
+       command: git commit -a -m "{{ version }}" chdir=ceph
+
+       # from script: /srv/ceph-build/tag_release.sh
+       # Contents of tag_release.sh
+     - name: tag and commit the version
+       command: git tag -s "v{{ version }}"  -u 17ED316D -m "v{{ version }}" chdir=ceph
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release
+
+     - name: push changes to jenkins git repo
+       command: git push jenkins {{ branch }} chdir=ceph
+
+     - name: push the newly created tag
+       command: git push jenkins v{{ version }} chdir=ceph
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release
+
+     - name: ensure GPG keys exist for release
+       command: gpg --list-keys
+       register: command_result
+       failed_when: "'17ED316D' not in command_result.stdout"
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release/
