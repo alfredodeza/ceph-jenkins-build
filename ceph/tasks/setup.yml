@@ -5,10 +5,11 @@
   connection: local
 
   vars:
-    version: 0-dev # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
-    branch: firefly # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
-    release: stable #
-
+    # should be passed in the CLI like `--extra-vars "version=1.23.45 branch=master"`
+    version: 0-dev # e.g. 0.78
+    branch: master # any existing branch on Github
+    release: stable # stable, development, or candidate are valid options
+    clean: true # if re-doing a deployment this deletes the remote branch in Jenkin's git repo
 
   tasks:
      - name: check if ceph repo exists
