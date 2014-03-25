@@ -39,13 +39,13 @@
                    regexp='^AC_INIT\(\[ceph\],'
                    line='AC_INIT([ceph], [{{ version }}], [ceph-devel@vger.kernel.org])'
 
-     - include: tasks/candidate.yml
+     - include: release/candidate.yml
        when: "release == 'candidate'"
 
-     - include: tasks/development.yml
+     - include: release/development.yml
        when: "release == 'development'"
 
-     - include: tasks/stable.yml
+     - include: release/stable.yml
        when: "release == 'stable'"
 
      - name: set the debian version

@@ -1,9 +1,3 @@
----
 
-- hosts: local
-
-  connection: local
-
-  tasks:
-     - name: set the debian version
-       command: dch -v {{ version }} -D UNRELEASED "Development release" chdir=ceph
+  - name: set the debian version
+    command: dch -v {{ version }} -D UNRELEASED "Development release" chdir=ceph
