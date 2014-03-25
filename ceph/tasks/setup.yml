@@ -38,6 +38,15 @@
                    regexp='^AC_INIT\(\[ceph\],'
                    line='AC_INIT([ceph], [{{ version }}], [ceph-devel@vger.kernel.org])'
 
+     - include: tasks/candidate.yml
+       when: "release == 'candidate'"
+
+     - include: tasks/development.yml
+       when: "release == 'development'"
+
+     - include: tasks/stable.yml
+       when: "release == 'stable'"
+
      - name: set the debian version
        command: dch -v {{ version }}-1 -D stable "New upsream release" chdir=ceph
 
