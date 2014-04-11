@@ -2,25 +2,18 @@
 localhost
 
 [slaves]
-squeeze
-wheezy
-precise
-quantal
-raring
+gitbuilder-cdep-deb-precise-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-quantal-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-raring-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-saucy-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-squeeze-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-trusty-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-wheezy-amd64-basic.front.sepia.ceph.com
 centos6.3
 rhel6.3
 fedora19
 opensuse12.2
 sles11sp2
-
-[deb]
-precise
-quantal
-raring
-saucy
-squeeze
-trusty
-wheezy
 
 [precise]
 gitbuilder-cdep-deb-precise-amd64-basic.front.sepia.ceph.com
@@ -41,6 +34,15 @@ gitbuilder-cdep-deb-squeeze-amd64-basic.front.sepia.ceph.com
 gitbuilder-cdep-deb-trusty-amd64-basic.front.sepia.ceph.com
 
 [wheezy]
+gitbuilder-cdep-deb-wheezy-amd64-basic.front.sepia.ceph.com
+
+[deb]
+gitbuilder-cdep-deb-precise-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-quantal-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-raring-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-saucy-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-squeeze-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-trusty-amd64-basic.front.sepia.ceph.com
 gitbuilder-cdep-deb-wheezy-amd64-basic.front.sepia.ceph.com
 
 [centos6.3]
