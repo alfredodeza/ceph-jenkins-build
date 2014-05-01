@@ -32,8 +32,8 @@
      - name: set the debian version
        command: dch -v {{ version }} -D stable "New upstream release" chdir=ceph-deploy
        environment:
-         DEBEMAIL: {{ debemail }}
-         DEBFULLNAME: {{ debfullname }}
+         DEBEMAIL: "{{ debemail }}"
+         DEBFULLNAME: "{{ debfullname }}"
 
      - name: set the version in the spec file
        lineinfile: dest=ceph-deploy/ceph-deploy.spec
@@ -50,8 +50,8 @@
        command: git tag -s "v{{ version }}"  -u 17ED316D -m "v{{ version }}" chdir=ceph-deploy
        environment:
          GNUPGHOME: ~/build/gnupg.ceph-release
-         DEBEMAIL: {{ debemail }}
-         DEBFULLNAME: {{ debfullname }}
+         DEBEMAIL: "{{ debemail }}"
+         DEBFULLNAME: "{{ debfullname }}"
 
 
      - name: push changes to jenkins git repo
