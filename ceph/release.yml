@@ -22,6 +22,10 @@
        command: git remote rename origin jenkins chdir=ceph
        ignore_errors: yes
 
+     - name: spit out the remote names
+       command: git remote -v chdir=ceph
+
+       # FIXME: branch depends on type of build
      - name: git checkout {{ branch }} branch
        command: git checkout {{ branch }} chdir=ceph
 
@@ -40,6 +44,7 @@
        command: git commit -a -m "{{ version }}" chdir=ceph
 
        # from script: /srv/ceph-build/tag_release.sh
+       # Contents of tag_release.sh
      - name: tag and commit the version
        command: git tag -s "v{{ version }}"  -u 17ED316D -m "v{{ version }}" chdir=ceph
        environment:
