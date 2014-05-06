@@ -8,8 +8,11 @@
     # should be passed in the CLI like `--extra-vars "version=1.23.45 branch=master"`
     version: 0-dev # e.g. 0.78
     branch: master # any existing branch on Github
-    release: stable # stable, development, or candidate are valid options
+    release: stable # stable, development, or rc are valid options
     clean: true # if re-doing a deployment this deletes the remote branch in Jenkin's git repo
+    force_dch: false # if coming from a rc and wanting to release a stable you need to force dch
+    debemail: alfredo.deza@inktank.com
+    debfullname: "Alfredo Deza"
 
   tasks:
      - name: check if ceph repo exists
@@ -24,10 +27,6 @@
        command: git remote rename origin jenkins chdir=ceph
        ignore_errors: yes
 
-     - name: spit out the remote names
-       command: git remote -v chdir=ceph
-
-       # FIXME: branch depends on type of build
      - name: git checkout {{ branch }} branch
        command: git checkout {{ branch }} chdir=ceph
 
@@ -40,7 +39,7 @@
                    line='AC_INIT([ceph], [{{ version }}], [ceph-devel@vger.kernel.org])'
 
      - include: release/candidate.yml
-       when: "release == 'candidate'"
+       when: "release in ['candidate', 'rc']"
 
      - include: release/development.yml
        when: "release == 'development'"
@@ -48,14 +47,10 @@
      - include: release/stable.yml
        when: "release == 'stable'"
 
-     - name: set the debian version
-       command: dch -v {{ version }}-1 -D stable "New upsream release" chdir=ceph
-
      - name: commit the version changes
        command: git commit -a -m "{{ version }}" chdir=ceph
 
        # from script: /srv/ceph-build/tag_release.sh
-       # Contents of tag_release.sh
      - name: tag and commit the version
        command: git tag -s "v{{ version }}"  -u 17ED316D -m "v{{ version }}" chdir=ceph
        environment:
