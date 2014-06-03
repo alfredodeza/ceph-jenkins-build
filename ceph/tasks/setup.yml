@@ -23,6 +23,10 @@
        git: repo=git@jenkins.front.sepia.ceph.com:ceph/ceph dest=ceph accept_hostkey=yes
        when: ceph_repo.stat.exists is defined and ceph_repo.stat.exists == false
 
+     - name: clear the previous tag
+       command: git push --tags :v{{ version }}
+       when: clean == true
+
      - name: rename origin to jenkins
        command: git remote rename origin jenkins chdir=ceph
        ignore_errors: yes
