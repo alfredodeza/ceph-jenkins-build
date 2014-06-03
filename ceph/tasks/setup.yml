@@ -24,7 +24,7 @@
        when: ceph_repo.stat.exists is defined and ceph_repo.stat.exists == false
 
      - name: clear the previous tag
-       command: git push --tags :v{{ version }}
+       command: git push jenkins --tags :v{{ version }}
        when: clean == true
 
      - name: rename origin to jenkins
