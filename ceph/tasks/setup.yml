@@ -28,7 +28,7 @@
        ignore_errors: yes
 
      - name: clear the previous tag
-       command: git push jenkins :v{{ version }}
+       command: git push jenkins :v{{ version }} chdir=ceph
        when: clean == true
 
      - name: git checkout {{ branch }} branch
