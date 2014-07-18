@@ -38,7 +38,8 @@
        when: clean
 
      - name: reset the previous commit
-       command: git reset --hard HEAD~1 chdir=ceph
+       command: git fetch jenkins
+       command: git reset --hard jenkins/{{ branch }}
        ignore_errors: yes
        when: clean
 
