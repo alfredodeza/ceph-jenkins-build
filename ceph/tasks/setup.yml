@@ -27,10 +27,20 @@
        command: git remote rename origin jenkins chdir=ceph
        ignore_errors: yes
 
-     - name: clear the previous tag
+     - name: clear the previous local tag
+       command: git tag -d {{ version }} chdir=ceph
+       ignore_errors: yes
+       when: clean
+
+     - name: clear the previous remote tag
        command: git push jenkins :v{{ version }} chdir=ceph
        ignore_errors: yes
-       when: clean == true
+       when: clean
+
+     - name: reset the previous commit
+       command: git reset --hard HEAD~1 chdir=ceph
+       ignore_errors: yes
+       when: clean
 
      - name: git checkout {{ branch }} branch
        command: git checkout {{ branch }} chdir=ceph
