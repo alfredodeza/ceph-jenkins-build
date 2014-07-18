@@ -28,7 +28,7 @@
        ignore_errors: yes
 
      - name: clear the previous local tag
-       command: git tag -d {{ version }} chdir=ceph
+       command: git tag -d v{{ version }} chdir=ceph
        ignore_errors: yes
        when: clean
 
