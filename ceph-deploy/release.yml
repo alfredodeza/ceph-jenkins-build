@@ -44,6 +44,14 @@
      - name: commit the version changes
        command: git commit -a -m "{{ version }}" chdir=ceph-deploy
 
+     - name: remove local tag
+       command: git tag -d v{{ version }}
+       ignore_errors: yes
+
+     - name: remove remote tag
+       command: git push jenkins :refs/tags/v{{ version }}
+       ignore_errors: yes
+
        # from script: /srv/ceph-build/tag_release.sh
        # Contents of tag_release.sh
      - name: tag and commit the version
