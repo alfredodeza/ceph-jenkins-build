@@ -9,6 +9,7 @@
     branch: master # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
     debemail: adeza@redhat.com
     debfullname: "Alfredo Deza"
+    clean: false # if re-doing a deployment this deletes the remote branch in Jenkin's git repo
 
   tasks:
      - name: check if ceph-deploy repo exists
@@ -19,9 +20,29 @@
        git: repo=git@github.com:ceph/ceph-deploy dest=ceph-deploy
        when: cdep_repo.stat.exists is defined and cdep_repo.stat.exists == false
 
+     - name: fetch the latest from remote
+       command: git fetch jenkins chdir=ceph-deploy
+
+     - name: ensure local repo is in sync with remote
+       command: git reset --hard jenkins/{{ branch }} chdir=ceph-deploy
+
+     - name: check if we are re-pushing the release commit
+       command: git log -1 --pretty=%B chdir=ceph-deploy
+       register: 'last_commit'
+
+     - debug: msg="{{ last_commit.stdout }}"
+     - debug: msg="{{ version in last_commit.stdout }}"
+
+     - name: undo last commit from failed released
+       command: git reset --soft HEAD~1 chdir=ceph-deploy
+       when: "version in last_commit.stdout"
+
      - name: rename origin to jenkins
        command: git remote rename origin jenkins chdir=ceph-deploy
        ignore_errors: yes
+
+     - name: spit out the remote names
+       command: git remote -v chdir=ceph-deploy
 
      - name: git checkout master branch
        command: git checkout master chdir=ceph-deploy
@@ -42,11 +63,11 @@
        command: git commit -a -m "{{ version }}" chdir=ceph-deploy
 
      - name: remove local tag
-       command: git tag -d v{{ version }}
+       command: git tag -d v{{ version }} chdir=ceph-deploy
        ignore_errors: yes
 
      - name: remove remote tag
-       command: git push jenkins :refs/tags/v{{ version }}
+       command: git push jenkins :refs/tags/v{{ version }} chdir=ceph-deploy
        ignore_errors: yes
 
        # from script: /srv/ceph-build/tag_release.sh
@@ -61,6 +82,11 @@
 
      - name: push changes to jenkins git repo
        command: git push jenkins {{ branch }} chdir=ceph-deploy
+       when: clean == false
+
+     - name: force push changes to jenkins git repo
+       command: git push -f jenkins {{ branch }} chdir=ceph-deploy
+       when: clean == true
 
      - name: push the newly created tag
        command: git push jenkins v{{ version }} chdir=ceph-deploy
