@@ -2,13 +2,13 @@
 localhost
 
 [slaves]
-gitbuilder-cdep-deb-precise-amd64-basic
-gitbuilder-cdep-deb-quantal-amd64-basic
-gitbuilder-cdep-deb-raring-amd64-basic
-gitbuilder-cdep-deb-saucy-amd64-basic
-gitbuilder-cdep-deb-squeeze-amd64-basic
-gitbuilder-cdep-deb-trusty-amd64-basic
-gitbuilder-cdep-deb-wheezy-amd64-basic
+gitbuilder-cdep-deb-precise-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-quantal-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-raring-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-saucy-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-squeeze-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-trusty-amd64-basic.front.sepia.ceph.com
+gitbuilder-cdep-deb-wheezy-amd64-basic.front.sepia.ceph.com
 centos6.3
 rhel6.3
 fedora19
@@ -16,25 +16,34 @@ opensuse12.2
 sles11sp2
 
 [precise]
-gitbuilder-cdep-deb-precise-amd64-basic
+gitbuilder-cdep-deb-precise-amd64-basic.front.sepia.ceph.com
 
 [quantal]
-gitbuilder-cdep-deb-quantal-amd64-basic
+gitbuilder-cdep-deb-quantal-amd64-basic.front.sepia.ceph.com
 
 [raring]
-gitbuilder-cdep-deb-raring-amd64-basic
+gitbuilder-cdep-deb-raring-amd64-basic.front.sepia.ceph.com
 
 [saucy]
-gitbuilder-cdep-deb-saucy-amd64-basic
+gitbuilder-cdep-deb-saucy-amd64-basic.front.sepia.ceph.com
 
 [squeeze]
-gitbuilder-cdep-deb-squeeze-amd64-basic
+gitbuilder-cdep-deb-squeeze-amd64-basic.front.sepia.ceph.com
 
 [trusty]
-gitbuilder-cdep-deb-trusty-amd64-basic
+gitbuilder-cdep-deb-trusty-amd64-basic.front.sepia.ceph.com
 
 [wheezy]
-gitbuilder-cdep-deb-wheezy-amd64-basic
+gitbuilder-cdep-deb-wheezy-amd64-basic.front.sepia.ceph.com
+
+#[deb]
+#gitbuilder-cdep-deb-precise-amd64-basic.front.sepia.ceph.com
+#gitbuilder-cdep-deb-quantal-amd64-basic.front.sepia.ceph.com
+#gitbuilder-cdep-deb-raring-amd64-basic.front.sepia.ceph.com
+#gitbuilder-cdep-deb-saucy-amd64-basic.front.sepia.ceph.com
+#gitbuilder-cdep-deb-squeeze-amd64-basic.front.sepia.ceph.com
+#gitbuilder-cdep-deb-trusty-amd64-basic.front.sepia.ceph.com
+#gitbuilder-cdep-deb-wheezy-amd64-basic.front.sepia.ceph.com
 
 [deb]
 gitbuilder-cdep-deb-precise-amd64-basic
@@ -46,15 +55,16 @@ gitbuilder-cdep-deb-trusty-amd64-basic
 gitbuilder-cdep-deb-wheezy-amd64-basic
 
 [rpm]
-gitbuilder-ceph-rpm-fedora20-amd64-basic
-gitbuilder-ceph-rpm-rhel7-rc1-amd64-basic
-gitbuilder-cdep-rpm-fedora19-amd64-basic
-gitbuilder-cdep-rpm-rhel6-5-amd64-basic
-gitbuilder-cdep-rpm-rhel6-4-amd64-basic
-gitbuilder-cdep-rpm-rhel6-amd64-basic
-gitbuilder-cdep-rpm-centos6-amd64-basic
-gitbuilder-cdep-rpm-centos6-4-amd64-basic
-gitbuilder-cdep-rpm-centos6-3-amd64-basic
+gitbuilder-cdep-rpm-cloud-centos6-3-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-centos6-4-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-centos6-5-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-centos7-0-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-fedora20-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-rhel6-3-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-rhel6-4-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-rhel6-5-amd64-basic.cloud.sepia.ceph.com
+gitbuilder-cdep-rpm-cloud-rhel7-0-amd64-basic.cloud.sepia.ceph.com
+
 
 [centos6.3]
 10.1.1.1
