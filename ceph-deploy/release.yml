@@ -7,7 +7,7 @@
   vars:
     version: 0-dev # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
     branch: master # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
-    debemail: alfredo.deza@inktank.com
+    debemail: adeza@redhat.com
     debfullname: "Alfredo Deza"
 
   tasks:
