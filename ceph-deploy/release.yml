@@ -23,9 +23,6 @@
        command: git remote rename origin jenkins chdir=ceph-deploy
        ignore_errors: yes
 
-     - name: spit out the remote names
-       command: git remote -v chdir=ceph-deploy
-
      - name: git checkout master branch
        command: git checkout master chdir=ceph-deploy
 
