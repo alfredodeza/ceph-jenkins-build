@@ -1,0 +1,33 @@
+---
+
+- name: Create a home for Helga.
+  sudo: yes
+  file: path={{ helga_home }} owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} state=directory recurse=yes
+
+- name: Retrieve software requirements.
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items: helga_system_packages
+
+- name: Install Cryptomunitions.
+  sudo: yes
+  apt: name={{ item }} state=present
+  with_items: helga_ssl_requirements
+  when: helga_use_ssl
+
+- name: Create a virtualenv with latest pip.
+  pip: name=pip virtualenv={{ helga_home }} extra_args='--upgrade'
+
+- name: Conceive the Helga.
+  pip: name=helga virtualenv={{ helga_home }} version=1.5.1
+
+- name: Helga enhancements.
+  pip: name={{ item.src }} state=present virtualenv={{ helga_home }}
+  with_items: helga_external_plugins
+  notify: Wake up, Helga...
+
+- name: Install custom personality.
+  template: src=custom_settings.j2 dest={{ helga_home }}/bin/custom_settings.py
+  notify: Wake up, Helga...
+
+- include: circus.yml

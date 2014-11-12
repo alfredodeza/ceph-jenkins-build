@@ -1,0 +1,18 @@
+---
+
+- name: install circus and friends in virtualenv
+  command: {{ venv }}/bin/pip install $item
+  with_items:
+    - circus
+    - circus-web
+    - chausette
+
+
+- name: install circus conf for bot
+  template: src=circus.ini.j2 dest=/etc/circus/circus.ini
+  sudo: true
+  notify: Wake up, Helga...
+
+- name: start the circusd process
+  command: {{ venv }}/bin/circusd --daemon /etc/circus/circus.ini
+
