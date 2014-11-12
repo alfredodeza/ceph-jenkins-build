@@ -1,0 +1,35 @@
+---
+
+- hosts: production
+  roles:
+    - common
+  vars:
+     ansible_ssh_user: "ubuntu"
+
+     # bot specific vars
+     helga_nick: 'kraken'
+     irc_hosts:
+       - irc.oftc.net
+       - irc.devel.redhat.com
+
+     helga_operators: ['alfredodeza']
+     helga_default_plugins:
+       - dubstep
+       - facts
+       - help
+       - manager
+       - meant_to_say
+       - oneliner
+       - operator
+       - poems
+       - reminders
+       - stfu
+
+     helga_external_plugins:
+       - norris
+       - redmine
+       - yall
+       - ugrep
+       - excuses
+       - karma
+       - wut
