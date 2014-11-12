@@ -1,0 +1,4 @@
+---
+
+- name: Wake up, Helga...
+  command: "{{ helga_home }}/bin/circusctl restart helga"
