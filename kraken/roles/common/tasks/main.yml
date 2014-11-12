@@ -4,6 +4,10 @@
   sudo: yes
   file: path={{ helga_home }} owner={{ ansible_ssh_user }} group={{ ansible_ssh_user }} state=directory recurse=yes
 
+- name: "udpate apt repo"
+  sudo: true
+  action: apt update-cache=yes
+
 - name: Retrieve software requirements.
   sudo: yes
   apt: name={{ item }} state=present
@@ -22,7 +26,7 @@
   pip: name=helga virtualenv={{ helga_home }} version=1.5.1
 
 - name: Helga enhancements.
-  pip: name={{ item.src }} state=present virtualenv={{ helga_home }}
+  pip: name={{ item }} state=present extra_args="-e" virtualenv={{ helga_home }}
   with_items: helga_external_plugins
   notify: Wake up, Helga...
 

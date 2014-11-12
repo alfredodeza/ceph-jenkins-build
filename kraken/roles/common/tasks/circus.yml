@@ -1,18 +1,25 @@
 ---
 
 - name: install circus and friends in virtualenv
-  command: {{ venv }}/bin/pip install $item
+  pip: name={{ item }} state=present virtualenv={{ helga_home }}
   with_items:
     - circus
     - circus-web
-    - chausette
+    - chaussette
 
+- name: ensure /etc/circus exists
+  file: path=/etc/circus state=directory
+  sudo: true
+
+- name: ensure /var/log/circus exists
+  file: path=/var/log/circus state=directory
+  sudo: true
+
+- name: start the circusd process
+  command: "{{ helga_home }}/bin/circusd --daemon /etc/circus/circus.ini"
 
 - name: install circus conf for bot
   template: src=circus.ini.j2 dest=/etc/circus/circus.ini
   sudo: true
   notify: Wake up, Helga...
-
-- name: start the circusd process
-  command: {{ venv }}/bin/circusd --daemon /etc/circus/circus.ini
 
