@@ -17,6 +17,7 @@
 
 - name: start the circusd process
   command: "{{ helga_home }}/bin/circusd --daemon /etc/circus/circus.ini"
+  sudo: true
 
 - name: install circus conf for bot
   template: src=circus.ini.j2 dest=/etc/circus/circus.ini
