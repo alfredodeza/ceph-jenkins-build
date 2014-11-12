@@ -7,6 +7,7 @@
      ansible_ssh_user: "ubuntu"
 
      # bot specific vars
+     venv: "{{ helga_home }}/venv"
      helga_nick: 'kraken'
      irc_hosts:
        - irc.oftc.net
@@ -24,12 +25,20 @@
        - poems
        - reminders
        - stfu
-
-     helga_external_plugins:
+       # custom ones
        - norris
        - redmine
        - yall
        - ugrep
-       - excuses
        - karma
        - wut
+       - karma
+
+     helga_external_plugins:
+       - git+https://github.com/alfredodeza/helga-norris#egg=helga-norris
+       - git+https://github.com/alfredodeza/helga-redmine#egg=helga-redmine
+       - git+https://github.com/alfredodeza/helga-yall#egg=helga-yall
+       - git+https://github.com/alfredodeza/helga-ugrep#egg=helga-ugrep
+       - git+https://github.com/alfredodeza/helga-excuses#egg=helga-excuses
+       - git+https://github.com/coddingtonbear/helga-karma#egg=helga-karma
+       - git+https://github.com/alfredodeza/helga-wut#egg=helga-wut
