@@ -1,0 +1,18 @@
+---
+- hosts: production
+  user: ubuntu
+  sudo: True
+  vars:
+     # bot vars
+     bot_name: kraken
+     bot_dir: /opt/kraken
+
+  tasks:
+     - include: tasks/system.yml
+     - include: webapp/tasks/setup.yml
+     - include: webapp/tasks/deploy.yml
+
+  handlers:
+      #- include: postgresql/handlers/handler.yml
+     - include: webapp/handlers/deploy.yml
+

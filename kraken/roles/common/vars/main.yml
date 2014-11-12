@@ -1,0 +1,14 @@
+---
+
+helga_system_packages:
+  - python-dev
+  - python-virtualenv
+  - mongodb-server
+
+helga_ssl_requirements:
+  - libcurl4-openssl-dev
+  - libffi-dev
+
+circus_system_packages:
+  - libzmq-dev
+  - libevent-dev
