@@ -1,5 +1,5 @@
 [watcher:helga]
-cmd = {{ venv }}/bin/helga
+cmd = {{ helga_home }}/bin/helga
 
 stdout_stream.class = FileStream
 stdout_stream.filename=/var/log/circus/helga-stdout.log
@@ -17,7 +17,7 @@ statsd = 1
 httpd = 1
 
 [watcher:webapp]
-cmd = {{ venv }}/bin/chaussette --fd $(circus.sockets.web)
+cmd = {{ helga_home }}/bin/chaussette --fd $(circus.sockets.web)
 numprocesses = 3
 use_sockets = True
 

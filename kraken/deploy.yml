@@ -9,9 +9,13 @@
      # bot specific vars
      venv: "{{ helga_home }}/venv"
      helga_nick: 'kraken'
-     irc_hosts:
-       - irc.oftc.net
-       - irc.devel.redhat.com
+     helga_irc_host: irc.devel.redhat.com
+     helga_irc_port: 6667
+     helga_use_ssl: false
+
+     helga_irc_channels:
+       - rh-ceph
+       - ceph
 
      helga_operators: ['alfredodeza']
      helga_default_plugins:
