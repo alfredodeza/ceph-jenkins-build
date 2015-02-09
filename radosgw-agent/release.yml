@@ -1,0 +1,101 @@
+---
+
+- hosts: local
+
+  connection: local
+
+  vars:
+    version: 0-dev # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
+    branch: master # a stub, should be passed in the CLI like '--extra-vars "version=1.23.45" '
+    debemail: adeza@redhat.com
+    debfullname: "Alfredo Deza"
+    clean: false # if re-doing a deployment this deletes the remote branch in Jenkin's git repo
+
+  tasks:
+     - name: check if radosgw-agent repo exists
+       stat: path='./radosgw-agent'
+       register: 'agent_repo'
+
+     - name: clone the radosgw-agent repository
+       git: repo=git@github.com:ceph/radosgw-agent dest=radosgw-agent
+       when: agent_repo.stat.exists is defined and agent_repo.stat.exists == false
+
+     - name: fetch the latest from remote
+       command: git fetch jenkins chdir=radosgw-agent
+
+     - name: ensure local repo is in sync with remote
+       command: git reset --hard jenkins/{{ branch }} chdir=radosgw-agent
+
+     - name: check if we are re-pushing the release commit
+       command: git log -1 --pretty=%B chdir=radosgw-agent
+       register: 'last_commit'
+
+     - debug: msg="{{ last_commit.stdout }}"
+     - debug: msg="{{ version in last_commit.stdout }}"
+
+     - name: undo last commit from failed released
+       command: git reset --soft HEAD~1 chdir=radosgw-agent
+       when: "version in last_commit.stdout"
+
+     - name: rename origin to jenkins
+       command: git remote rename origin jenkins chdir=radosgw-agent
+       ignore_errors: yes
+
+     - name: spit out the remote names
+       command: git remote -v chdir=radosgw-agent
+
+     - name: git checkout master branch
+       command: git checkout master chdir=radosgw-agent
+
+     - name: set the debian version
+       command: dch -v {{ version }} -D stable "New upstream release" chdir=radosgw-agent
+       environment:
+         DEBEMAIL: "{{ debemail }}"
+         DEBFULLNAME: "{{ debfullname }}"
+
+     - name: set the version in the spec file
+       lineinfile: dest=radosgw-agent/radosgw-agent.spec
+                   regexp="Version{{':'}}\s+"
+                   line="Version{{':'}}       {{ version }}"
+                   state=present
+
+     - name: commit the version changes
+       command: git commit -a -m "{{ version }}" chdir=radosgw-agent
+
+     - name: remove local tag
+       command: git tag -d v{{ version }} chdir=radosgw-agent
+       ignore_errors: yes
+
+     - name: remove remote tag
+       command: git push jenkins :refs/tags/v{{ version }} chdir=radosgw-agent
+       ignore_errors: yes
+
+       # from script: /srv/ceph-build/tag_release.sh
+       # Contents of tag_release.sh
+     - name: tag and commit the version
+       command: git tag -s "v{{ version }}"  -u 17ED316D -m "v{{ version }}" chdir=radosgw-agent
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release
+         DEBEMAIL: "{{ debemail }}"
+         DEBFULLNAME: "{{ debfullname }}"
+
+
+     - name: push changes to jenkins git repo
+       command: git push jenkins {{ branch }} chdir=radosgw-agent
+       when: clean == false
+
+     - name: force push changes to jenkins git repo
+       command: git push -f jenkins {{ branch }} chdir=radosgw-agent
+       when: clean == true
+
+     - name: push the newly created tag
+       command: git push jenkins v{{ version }} chdir=radosgw-agent
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release
+
+     - name: ensure GPG keys exist for release
+       command: gpg --list-keys
+       register: command_result
+       failed_when: "'17ED316D' not in command_result.stdout"
+       environment:
+         GNUPGHOME: ~/build/gnupg.ceph-release/
