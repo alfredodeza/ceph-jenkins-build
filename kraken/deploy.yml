@@ -16,6 +16,7 @@
      helga_irc_channels:
        - rh-ceph
        - ceph
+       - octo
 
      helga_operators: ['alfredodeza']
      helga_default_plugins:
