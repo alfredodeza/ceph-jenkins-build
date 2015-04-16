@@ -42,6 +42,7 @@
 
      helga_external_plugins:
        - git+https://github.com/alfredodeza/helga-norris#egg=helga-norris
+       - git+https://github.com/alfredodeza/helga-ansible#egg=helga-ansible
        - git+https://github.com/alfredodeza/helga-redmine#egg=helga-redmine
        - git+https://github.com/alfredodeza/helga-yall#egg=helga-yall
        - git+https://github.com/alfredodeza/helga-ugrep#egg=helga-ugrep
