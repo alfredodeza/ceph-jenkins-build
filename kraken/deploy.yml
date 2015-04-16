@@ -17,6 +17,7 @@
        - rh-ceph
        - ceph
        - octo
+       - rh-ceph-qe
 
      helga_operators: ['alfredodeza']
      helga_default_plugins:
