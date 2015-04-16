@@ -19,7 +19,7 @@
        - octo
        - rh-ceph-qe
 
-     helga_operators: ['alfredodeza']
+     helga_operators: ['alfredodeza', 'ktdreyer', 'andrewschoen']
      helga_default_plugins:
        - dubstep
        - facts
