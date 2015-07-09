@@ -18,6 +18,7 @@
        - ceph
        - octo
        - rh-ceph-qe
+       - chatops
 
      helga_operators: ['alfredodeza', 'ktdreyer', 'andrewschoen']
      helga_default_plugins:
