@@ -23,4 +23,3 @@
   template: src=circus.ini.j2 dest=/etc/circus/circus.ini
   sudo: true
   notify: Wake up, Helga...
-

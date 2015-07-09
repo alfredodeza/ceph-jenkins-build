@@ -1,2 +1,5 @@
 [production]
 magna002.ceph.redhat.com
+
+[os1]
+10.3.9.201

@@ -1,5 +1,6 @@
 ---
 helga_home: /opt/helga
+helga_settings_path: '{{ helga_home }}/bin/settings.d'
 helga_nick: helga
 helga_irc_host: localhost
 helga_irc_port: 6667
