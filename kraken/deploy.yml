@@ -18,6 +18,7 @@
        - ceph
        - octo
        - rh-ceph-qe
+       - chatops
 
      helga_operators: ['alfredodeza', 'ktdreyer', 'andrewschoen']
      helga_default_plugins:
@@ -38,7 +39,6 @@
        - ugrep
        - karma
        - wut
-       - karma
 
      helga_external_plugins:
        - git+https://github.com/alfredodeza/helga-norris#egg=helga-norris
