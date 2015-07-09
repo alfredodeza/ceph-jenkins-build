@@ -39,7 +39,6 @@
        - ugrep
        - karma
        - wut
-       - karma
 
      helga_external_plugins:
        - git+https://github.com/alfredodeza/helga-norris#egg=helga-norris
