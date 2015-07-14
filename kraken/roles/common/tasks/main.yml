@@ -66,4 +66,16 @@
   assemble: src={{ helga_settings_path }}/
             dest={{ helga_home }}/bin/custom_settings.py
 
+- name: ensure mongod is running
+  sudo: true
+  service:
+    name: mongod
+    state: started
+
+- name: ensure mongod is set to start at boot (enabled)
+  sudo: true
+  service:
+    name: mongod
+    enabled: true
+
 - include: circus.yml
