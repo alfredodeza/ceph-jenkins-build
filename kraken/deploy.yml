@@ -25,7 +25,6 @@
      helga_operators: ['alfredodeza', 'ktdreyer', 'andrewschoen']
      helga_default_plugins:
        - dubstep
-       - facts
        - help
        - manager
        - meant_to_say
@@ -57,4 +56,3 @@
        - helga-redmine
        - helga-poems
        - helga-reminders
-       - helga-facts

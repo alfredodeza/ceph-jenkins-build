@@ -11,7 +11,6 @@ helga_irc_channels:
 helga_timezone: 'UTC'
 helga_default_plugins:
 - dubstep
-- facts
 - help
 - manager
 - meant_to_say
