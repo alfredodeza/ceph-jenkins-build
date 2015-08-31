@@ -43,8 +43,8 @@
        ignore_errors: yes
        when: clean
 
-     - name: git checkout {{ branch }} branch
-       command: git checkout {{ branch }} chdir=ceph
+     - name: force git checkout {{ branch }} branch
+       command: git checkout -f {{ branch }} chdir=ceph
 
      - name: git submodule update
        command: git submodule update --init chdir=ceph
