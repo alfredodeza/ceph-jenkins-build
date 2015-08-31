@@ -20,6 +20,10 @@
        git: repo=git@github.com:ceph/radosgw-agent dest=radosgw-agent
        when: agent_repo.stat.exists is defined and agent_repo.stat.exists == false
 
+     - name: rename origin to jenkins
+       command: git remote rename origin jenkins chdir=radosgw-agent
+       ignore_errors: yes
+
      - name: fetch the latest from remote
        command: git fetch jenkins chdir=radosgw-agent
 
@@ -28,24 +32,23 @@
 
      - name: check if we are re-pushing the release commit
        command: git log -1 --pretty=%B chdir=radosgw-agent
-       register: 'last_commit'
+       register: 'last_commit_raw'
 
-     - debug: msg="{{ last_commit.stdout }}"
-     - debug: msg="{{ version in last_commit.stdout }}"
+     - set_fact: last_commit="{{ last_commit_raw.stdout.strip() }}"
+     - set_fact: release_tag="{{ 'v%s'| format(last_commit) }}"
+
+     - debug: msg="{{ last_commit }}"
+     - debug: msg="{{ release_tag == last_commit }}"
 
      - name: undo last commit from failed released
        command: git reset --soft HEAD~1 chdir=radosgw-agent
-       when: "version in last_commit.stdout"
-
-     - name: rename origin to jenkins
-       command: git remote rename origin jenkins chdir=radosgw-agent
-       ignore_errors: yes
+       when: "release_tag == last_commit"
 
      - name: spit out the remote names
        command: git remote -v chdir=radosgw-agent
 
-     - name: git checkout master branch
-       command: git checkout master chdir=radosgw-agent
+     - name: git checkout {{ branch }} branch
+       command: git checkout {{ branch }} chdir=radosgw-agent
 
      - name: set the debian version
        command: dch -v {{ version }} -D stable "New upstream release" chdir=radosgw-agent
