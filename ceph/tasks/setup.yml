@@ -20,7 +20,7 @@
        register: 'ceph_repo'
 
      - name: clone the ceph repository
-       git: repo=git@jenkins.front.sepia.ceph.com:ceph/ceph dest=ceph accept_hostkey=yes
+       git: repo=git@jenkins.front.sepia.ceph.com:ceph/ceph dest=ceph
        when: ceph_repo.stat.exists is defined and ceph_repo.stat.exists == false
 
      - name: rename origin to jenkins
