@@ -68,21 +68,10 @@
 
        # from script: /srv/ceph-build/tag_release.sh
      - name: tag and commit the version
-       command: git tag -s "v{{ version }}"  -u 17ED316D -m "v{{ version }}" chdir=ceph
-       environment:
-         GNUPGHOME: ~/build/gnupg.ceph-release
+       command: git tag -a "v{{ version }}" -m "v{{ version }}" chdir=ceph
 
      - name: push changes to jenkins git repo
        command: git push jenkins {{ branch }} chdir=ceph
 
      - name: push the newly created tag
        command: git push jenkins v{{ version }} chdir=ceph
-       environment:
-         GNUPGHOME: ~/build/gnupg.ceph-release
-
-     - name: ensure GPG keys exist for release
-       command: gpg --list-keys
-       register: command_result
-       failed_when: "'17ED316D' not in command_result.stdout"
-       environment:
-         GNUPGHOME: ~/build/gnupg.ceph-release/
