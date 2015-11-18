@@ -49,7 +49,7 @@
        - git+https://github.com/alfredodeza/helga-yall#egg=helga-yall
        - git+https://github.com/alfredodeza/helga-ugrep#egg=helga-ugrep
        - git+https://github.com/alfredodeza/helga-wut#egg=helga-wut
-       - git+https://github.com/coddingtonbear/helga-karma#egg=helga-karma
+       - git+https://github.com/alfredodeza/helga-karma#egg=helga-karma
        - git+https://github.com/alfredodeza/helga-jenkins#egg=helga-jenkins
        - git+https://github.com/alfredodeza/helga-excuses#egg=helga-excuses
 
