@@ -43,13 +43,14 @@
        - poems
        - reminders
        - karma
+       - bugzilla
 
      helga_external_plugins:
        - git+https://github.com/alfredodeza/helga-norris#egg=helga-norris
        - git+https://github.com/alfredodeza/helga-yall#egg=helga-yall
        - git+https://github.com/alfredodeza/helga-ugrep#egg=helga-ugrep
        - git+https://github.com/alfredodeza/helga-wut#egg=helga-wut
-       - git+https://github.com/coddingtonbear/helga-karma#egg=helga-karma
+       - git+https://github.com/alfredodeza/helga-karma#egg=helga-karma
        - git+https://github.com/alfredodeza/helga-jenkins#egg=helga-jenkins
        - git+https://github.com/alfredodeza/helga-excuses#egg=helga-excuses
 
@@ -58,3 +59,7 @@
        - helga-poems
        - helga-reminders
        - helga-facts
+       - helga-bugzilla
+
+     bugzilla_xmlrpc_url: 'https://bugzilla.redhat.com/xmlrpc.cgi'
+     bugzilla_ticket_url: 'https://bugzilla.redhat.com/%(ticket)s'
