@@ -16,7 +16,6 @@
 
      helga_irc_channels:
        - rh-ceph
-       - ceph
        - octo
        - rh-ceph-qe
        - chatops
