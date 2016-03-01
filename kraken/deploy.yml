@@ -20,6 +20,7 @@
        - rh-ceph-qe
        - chatops
        - seg-team
+       - ceph-installer
 
      helga_operators: ['alfredodeza', 'ktdreyer', 'andrewschoen']
      helga_default_plugins:
