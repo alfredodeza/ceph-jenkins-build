@@ -32,6 +32,7 @@
        - oneliner
        - operator
        - stfu
+       - version
        # custom ones
        - norris
        - redmine
