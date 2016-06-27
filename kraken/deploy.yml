@@ -60,6 +60,3 @@
        - helga-reminders
        - helga-facts
        - helga-bugzilla
-
-     bugzilla_xmlrpc_url: 'https://bugzilla.redhat.com/xmlrpc.cgi'
-     bugzilla_ticket_url: 'https://bugzilla.redhat.com/%(ticket)s'
