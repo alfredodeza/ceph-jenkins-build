@@ -21,6 +21,7 @@
        - chatops
        - seg-team
        - ceph-installer
+       - usm-meeting
 
      helga_operators: ['alfredodeza', 'ktdreyer', 'andrewschoen']
      helga_default_plugins:
