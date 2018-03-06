@@ -24,7 +24,7 @@
 - name: Retrieve software requirements.
   sudo: yes
   yum: name={{ item }} state=present
-  with_items: helga_system_packages
+  with_items: "{{ helga_system_packages }}"
 
 - name: Create a virtualenv with latest pip.
   pip: name=pip virtualenv={{ helga_home }} extra_args='--upgrade'
@@ -34,12 +34,12 @@
 
 - name: Helga unreleased enhancements.
   pip: name={{ item }} state=present extra_args="-e" virtualenv={{ helga_home }}
-  with_items: helga_external_plugins
+  with_items: "{{ helga_external_plugins }}"
   notify: Wake up, Helga...
 
 - name: Helga released enhancements.
-  pip: name={{ item }} state=present virtualenv={{ helga_home }}
-  with_items: helga_pypi_plugins
+  pip: name={{ item }} state=latest virtualenv={{ helga_home }}
+  with_items: "{{ helga_pypi_plugins }}"
   notify: Wake up, Helga...
 
 #- name: Install custom personality.
@@ -78,4 +78,4 @@
     name: mongod
     enabled: true
 
-- include: circus.yml
+- include: systemd.yml
